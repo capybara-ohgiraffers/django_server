@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import socket
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,11 @@ SECRET_KEY = 'django-insecure-9=1a=71p2#+pot5v85t&i9*+^cbbk&g+bd=-n#q&zd*j*c*tqg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# print('내 로컬PC명: ' + socket.gethostname())
+if socket.gethostname() == 'DESKTOP-OQH453C':
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']      # 로컬 개발 및 테스트용
+else:
+    ALLOWED_HOSTS = ['13.125.11.173']               # AWS 탄력적 IP
 
 
 # Application definition
@@ -117,7 +122,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# 1) 개발 시 사용되는 정적 파일 경로
 STATICFILES_DIRS = [BASE_DIR / 'main/static']
+
+# 2) collectstatic 시 모을 최종 정적 파일 저장 위치
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
